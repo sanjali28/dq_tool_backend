@@ -9,7 +9,9 @@ import lombok.*;
 @ToString
 public class DatabaseDetails {
 
+    private String env;
     private String databaseName;
     private String tableName;
+    private String[] columnNames;
 
 }

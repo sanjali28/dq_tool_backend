@@ -1,12 +1,14 @@
 package com.app.comparetool.service;
 
-import com.app.comparetool.dto.DatabaseDetails;
-import com.app.comparetool.exceptionhandler.CustomException.DatabaseNotFoundException;
 import com.app.comparetool.repository.DatabaseRepositoryImpl;
+import jakarta.persistence.PersistenceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class DatabaseCheckerServiceImpl implements DatabaseCheckerService {
@@ -17,14 +19,15 @@ public class DatabaseCheckerServiceImpl implements DatabaseCheckerService {
     private DatabaseRepositoryImpl postgresDatabaseRepository;
 
     @Override
-    public boolean checkIfDatabaseExists(DatabaseDetails databaseDetails) {
-        long count = postgresDatabaseRepository.checkDatabaseExists(databaseDetails.getDatabaseName());
-        log.info("Count {}",count);
+    public List<String> getAllDatabaseNames() {
 
-        if(count == 1)
-            return true;
-
-        throw new DatabaseNotFoundException("Database doesn't exists - "+databaseDetails.getDatabaseName());
+        try {
+            return postgresDatabaseRepository.getAllDatabaseNames();
+        } catch (PersistenceException e){
+            return Collections.emptyList();
+        } catch (Exception e){
+            throw new RuntimeException("Failed to retrieve database names",e);
+        }
 
     }
 }

@@ -1,6 +1,8 @@
 package com.app.comparetool.repository;
 
+import java.util.List;
+
 public interface DatabaseRepository {
 
-    public Long checkDatabaseExists(String databaseName);
+    public List<String> getAllDatabaseNames();
 }
