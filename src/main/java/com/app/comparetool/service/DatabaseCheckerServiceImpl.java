@@ -1,7 +1,6 @@
 package com.app.comparetool.service;
 
-import com.app.comparetool.repository.DatabaseRepositoryImpl;
-import jakarta.persistence.PersistenceException;
+import com.app.comparetool.repository.DatabaseRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +15,13 @@ public class DatabaseCheckerServiceImpl implements DatabaseCheckerService {
     private static final Logger log = LogManager.getLogger(DatabaseCheckerServiceImpl.class);
 
     @Autowired
-    private DatabaseRepositoryImpl postgresDatabaseRepository;
+    private DatabaseRepository databaseRepository;
 
     @Override
     public List<String> getAllDatabaseNames() {
 
         try {
-            return postgresDatabaseRepository.getAllDatabaseNames();
-        } catch (PersistenceException e){
-            return Collections.emptyList();
+            return databaseRepository.getAllDatabaseNames();
         } catch (Exception e){
             throw new RuntimeException("Failed to retrieve database names",e);
         }
