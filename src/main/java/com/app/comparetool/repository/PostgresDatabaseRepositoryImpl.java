@@ -1,5 +1,6 @@
 package com.app.comparetool.repository;
 
+import com.app.comparetool.dto.DatabaseDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class PostgresDatabaseRepositoryImpl implements DatabaseRepository{
+public class PostgresDatabaseRepositoryImpl extends DatabaseRepositoryDummyImpl{
 
     @Autowired
     @Qualifier("postgresJdbcTemplate")
@@ -27,7 +28,7 @@ public class PostgresDatabaseRepositoryImpl implements DatabaseRepository{
     }
 
     @Override
-    public List<String> getAllTableNames() {
+    public List<String> getAllTableNames(String databaseName) {
         List<String> listOfTables = new ArrayList<>();
         String query = "SELECT datname FROM pg_database WHERE datname NOT IN ('postgres', 'template0', 'template1')";
         listOfTables = jdbcTemplate.queryForList(query,String.class).stream().toList();

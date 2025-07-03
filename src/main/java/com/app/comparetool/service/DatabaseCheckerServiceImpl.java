@@ -1,5 +1,6 @@
 package com.app.comparetool.service;
 
+import com.app.comparetool.dto.DatabaseDetails;
 import com.app.comparetool.repository.DatabaseRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,5 +27,23 @@ public class DatabaseCheckerServiceImpl implements DatabaseCheckerService {
             throw new RuntimeException("Failed to retrieve database names",e);
         }
 
+    }
+
+    @Override
+    public List<String> getAllTableNames(String databaseName) {
+        try {
+            return databaseRepository.getAllTableNames(databaseName);
+        } catch (Exception e){
+            throw new RuntimeException("Failed to retrieve tables names from - "+databaseName,e);
+        }
+    }
+
+    @Override
+    public List<String> getAllColumnNames(String databaseName, String tableName) {
+        try {
+            return databaseRepository.getAllColumnNames(databaseName,tableName);
+        } catch (Exception e){
+            throw new RuntimeException("Failed to retrieve column names from - "+databaseName+"."+tableName,e);
+        }
     }
 }

@@ -7,9 +7,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DatabaseDetails {
+public class EnvironmentDetails {
 
-    private String[] columnNames;
-    private EnvironmentDetails[] environmentDetails;
+    private String env;
+    private String databaseName;
+    private String tableName;
 
 }
