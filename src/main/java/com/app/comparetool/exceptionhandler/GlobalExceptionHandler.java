@@ -18,13 +18,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(DatabaseNotFoundException.class)
     public ResponseEntity<?> handleDatabaseNotFoundException(DatabaseNotFoundException e){
         log.info("In Exception handler - {}", e);
-        return new ResponseEntity<>(new ErrorResponse("Error fetching database details", e.getMessage()), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ErrorResponse("Runtime Error", e.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<?> handleRuntimeException(RuntimeException e) {
+        log.info("In Exception handler - {}", e);
+        return new ResponseEntity<>(new ErrorResponse("Runtime Error", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleException(Exception e) {
         log.info("In Exception handler - {}", e);
-        return new ResponseEntity<>(new ErrorResponse("Error fetching database details", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new ErrorResponse("Runtime Error", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
